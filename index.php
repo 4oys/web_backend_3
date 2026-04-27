@@ -1,28 +1,21 @@
 <?php
-// ============================================
-// ОБРАБОТЧИК ФОРМЫ
-// ============================================
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 header('Content-Type: text/html; charset=UTF-8');
 
-// ===== НАСТРОЙКИ БД =====
 $host = 'localhost';
 $dbname = 'u82564';
 $username = 'u82564';
 $password = '1341640';  
 
-// Разрешённые языки (12 штук)
 $allowedLanguages = ['Pascal', 'C', 'C++', 'JavaScript', 'PHP', 'Python', 'Java', 'Haskell', 'Clojure', 'Prolog', 'Scala', 'Go'];
 
 $errors = [];
 $success = false;
 
-// ===== ОБРАБОТКА POST-ЗАПРОСА =====
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
-    // 1. ФИО
     $fio = trim($_POST['fio'] ?? '');
     if (empty($fio)) {
         $errors['fio'] = 'Заполните ФИО.';
@@ -32,7 +25,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $errors['fio'] = 'ФИО не должно превышать 150 символов.';
     }
     
-    // 2. Телефон
     $phone = trim($_POST['phone'] ?? '');
     if (empty($phone)) {
         $errors['phone'] = 'Заполните телефон.';
@@ -40,7 +32,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $errors['phone'] = 'Телефон должен быть в формате +7XXXXXXXXXX или 8XXXXXXXXXX (11 цифр).';
     }
     
-    // 3. Email
     $email = trim($_POST['email'] ?? '');
     if (empty($email)) {
         $errors['email'] = 'Заполните email.';
@@ -48,7 +39,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $errors['email'] = 'Введите корректный email адрес.';
     }
     
-    // 4. Дата рождения
     $birth_date = $_POST['birth_date'] ?? '';
     if (empty($birth_date)) {
         $errors['birth_date'] = 'Заполните дату рождения.';
@@ -61,7 +51,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
     
-    // 5. Пол
     $gender = $_POST['gender'] ?? '';
     $allowedGenders = ['male', 'female', 'other'];
     if (empty($gender)) {
@@ -70,7 +59,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $errors['gender'] = 'Выбран недопустимый пол.';
     }
     
-    // 6. Языки
     $languages = $_POST['languages'] ?? [];
     if (empty($languages)) {
         $errors['languages'] = 'Выберите хотя бы один язык программирования.';
@@ -83,19 +71,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
     
-    // 7. Биография (необязательно)
     $biography = trim($_POST['biography'] ?? '');
     if (mb_strlen($biography) > 1000) {
         $errors['biography'] = 'Биография не должна превышать 1000 символов.';
     }
     
-    // 8. Контракт
     $contract_agreed = isset($_POST['contract_agreed']) ? 1 : 0;
     if (!$contract_agreed) {
         $errors['contract_agreed'] = 'Необходимо подтвердить ознакомление с контрактом.';
     }
     
-    // ===== СОХРАНЕНИЕ В БД (если нет ошибок) =====
     if (empty($errors)) {
         try {
             $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password, [
@@ -104,7 +89,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             
             $pdo->beginTransaction();
             
-            // Вставка в таблицу applications
             $stmt = $pdo->prepare("
                 INSERT INTO applications (fio, phone, email, birth_date, gender, biography, contract_agreed) 
                 VALUES (:fio, :phone, :email, :birth_date, :gender, :biography, :contract_agreed)
@@ -121,7 +105,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             
             $applicationId = $pdo->lastInsertId();
             
-            // Вставка языков (через ID из справочника)
             $langIdStmt = $pdo->prepare("SELECT id FROM programming_languages WHERE name = :name");
             $insertLangStmt = $pdo->prepare("INSERT INTO application_languages (application_id, language_id) VALUES (:app_id, :lang_id)");
             
@@ -148,7 +131,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-// ===== ПОКАЗЫВАЕМ ФОРМУ С СООБЩЕНИЯМИ =====
 ?>
 <!DOCTYPE html>
 <html lang="ru">
