@@ -1,9 +1,4 @@
--- ============================================
--- ЗАДАНИЕ 3: База данных для анкеты разработчика
--- Логин: u82564
--- ============================================
 
--- 1. Таблица заявок (основная)
 CREATE TABLE IF NOT EXISTS applications (
     id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
     fio VARCHAR(150) NOT NULL,
@@ -18,20 +13,17 @@ CREATE TABLE IF NOT EXISTS applications (
     UNIQUE KEY unique_email (email)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- 2. Таблица языков программирования (справочник)
 CREATE TABLE IF NOT EXISTS programming_languages (
     id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
     name VARCHAR(50) NOT NULL UNIQUE,
     PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- 3. Заполнение справочника (12 языков)
 INSERT INTO programming_languages (name) VALUES 
 ('Pascal'), ('C'), ('C++'), ('JavaScript'), ('PHP'), 
 ('Python'), ('Java'), ('Haskell'), ('Clojure'), 
 ('Prolog'), ('Scala'), ('Go');
 
--- 4. Таблица связи (один ко многим) - правильная структура
 CREATE TABLE IF NOT EXISTS application_languages (
     application_id INT(10) UNSIGNED NOT NULL,
     language_id INT(10) UNSIGNED NOT NULL,
