@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анкета разработчика</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 40px 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 32px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+        
+        form {
+            padding: 40px;
+        }
+        
+        .form-group {
+            margin-bottom: 24px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #1f2937;
+            font-size: 14px;
+        }
+        
+        .required::after {
+            content: " *";
+            color: #ef4444;
+        }
+        
+        input[type="text"],
+        input[type="tel"],
+        input[type="email"],
+        input[type="date"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 15px;
+            font-family: inherit;
+            transition: all 0.2s;
+            background: #fefefe;
+        }
+        
+        input:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+        
+        .radio-group {
+            display: flex;
+            gap: 24px;
+            padding: 8px 0;
+        }
+        
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: normal;
+            cursor: pointer;
+            margin-bottom: 0;
+        }
+        
+        .radio-group input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+        
+        select[multiple] {
+            height: 160px;
+        }
+        
+        select[multiple] option {
+            padding: 10px 12px;
+            border-radius: 8px;
+            margin: 2px 0;
+        }
+        
+        select[multiple] option:checked {
+            background: #667eea linear-gradient(0deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 0;
+        }
+        
+        .checkbox-group input {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+        
+        .checkbox-group label {
+            margin-bottom: 0;
+            cursor: pointer;
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        
+        .small-hint {
+            font-size: 11px;
+            color: #6b7280;
+            margin-top: 6px;
+            display: block;
+        }
+        
+        button {
+            width: 100%;
+            padding: 14px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 40px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 16px;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -5px rgba(102, 126, 234, 0.4);
+        }
+        
+        .error-message {
+            background: #fee2e2;
+            color: #dc2626;
+            padding: 14px 18px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            border-left: 4px solid #dc2626;
+        }
+        
+        .success-message {
+            background: #dcfce7;
+            color: #16a34a;
+            padding: 14px 18px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            border-left: 4px solid #16a34a;
+        }
+        
+        @media (max-width: 640px) {
+            form { padding: 24px; }
+            .header { padding: 24px; }
+            .radio-group { flex-direction: column; gap: 12px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>📝 Анкета разработчика</h1>
+        <p>Заполните форму — все данные будут проверены на сервере</p>
+    </div>
+    
+    <form method="POST" action="index.php">
+        <!-- 1. ФИО -->
+        <div class="form-group">
+            <label for="fio" class="required">ФИО</label>
+            <input type="text" id="fio" name="fio" 
+                   placeholder="Иванов Иван Иванович"
+                   value="<?php echo isset($_POST['fio']) ? htmlspecialchars($_POST['fio']) : ''; ?>">
+            <span class="small-hint">Только буквы, пробелы и дефисы. Максимум 150 символов.</span>
+        </div>
+        
+        <!-- 2. Телефон -->
+        <div class="form-group">
+            <label for="phone" class="required">Телефон</label>
+            <input type="tel" id="phone" name="phone" 
+                   placeholder="+7 (123) 456-78-90"
+                   value="<?php echo isset($_POST['phone']) ? htmlspecialchars($_POST['phone']) : ''; ?>">
+            <span class="small-hint">Формат: +7XXXXXXXXXX или 8XXXXXXXXXX (11 цифр)</span>
+        </div>
+        
+        <!-- 3. Email -->
+        <div class="form-group">
+            <label for="email" class="required">E-mail</label>
+            <input type="email" id="email" name="email" 
+                   placeholder="ivanov@example.com"
+                   value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>">
+        </div>
+        
+        <!-- 4. Дата рождения -->
+        <div class="form-group">
+            <label for="birth_date" class="required">Дата рождения</label>
+            <input type="date" id="birth_date" name="birth_date"
+                   value="<?php echo isset($_POST['birth_date']) ? htmlspecialchars($_POST['birth_date']) : ''; ?>">
+        </div>
+        
+        <!-- 5. Пол -->
+        <div class="form-group">
+            <label class="required">Пол</label>
+            <div class="radio-group">
+                <label>
+                    <input type="radio" name="gender" value="male" 
+                           <?php echo (isset($_POST['gender']) && $_POST['gender'] == 'male') ? 'checked' : ''; ?>> Мужской
+                </label>
+                <label>
+                    <input type="radio" name="gender" value="female"
+                           <?php echo (isset($_POST['gender']) && $_POST['gender'] == 'female') ? 'checked' : ''; ?>> Женский
+                </label>
+                <label>
+                    <input type="radio" name="gender" value="other"
+                           <?php echo (isset($_POST['gender']) && $_POST['gender'] == 'other') ? 'checked' : ''; ?>> Другой
+                </label>
+            </div>
+        </div>
+        
+        <!-- 6. Языки программирования -->
+        <div class="form-group">
+            <label for="languages" class="required">Любимый язык программирования</label>
+            <select name="languages[]" id="languages" multiple size="6">
+                <option value="Pascal" <?php echo (isset($_POST['languages']) && in_array('Pascal', $_POST['languages'])) ? 'selected' : ''; ?>>Pascal</option>
+                <option value="C" <?php echo (isset($_POST['languages']) && in_array('C', $_POST['languages'])) ? 'selected' : ''; ?>>C</option>
+                <option value="C++" <?php echo (isset($_POST['languages']) && in_array('C++', $_POST['languages'])) ? 'selected' : ''; ?>>C++</option>
+                <option value="JavaScript" <?php echo (isset($_POST['languages']) && in_array('JavaScript', $_POST['languages'])) ? 'selected' : ''; ?>>JavaScript</option>
+                <option value="PHP" <?php echo (isset($_POST['languages']) && in_array('PHP', $_POST['languages'])) ? 'selected' : ''; ?>>PHP</option>
+                <option value="Python" <?php echo (isset($_POST['languages']) && in_array('Python', $_POST['languages'])) ? 'selected' : ''; ?>>Python</option>
+                <option value="Java" <?php echo (isset($_POST['languages']) && in_array('Java', $_POST['languages'])) ? 'selected' : ''; ?>>Java</option>
+                <option value="Haskell" <?php echo (isset($_POST['languages']) && in_array('Haskell', $_POST['languages'])) ? 'selected' : ''; ?>>Haskell</option>
+                <option value="Clojure" <?php echo (isset($_POST['languages']) && in_array('Clojure', $_POST['languages'])) ? 'selected' : ''; ?>>Clojure</option>
+                <option value="Prolog" <?php echo (isset($_POST['languages']) && in_array('Prolog', $_POST['languages'])) ? 'selected' : ''; ?>>Prolog</option>
+                <option value="Scala" <?php echo (isset($_POST['languages']) && in_array('Scala', $_POST['languages'])) ? 'selected' : ''; ?>>Scala</option>
+                <option value="Go" <?php echo (isset($_POST['languages']) && in_array('Go', $_POST['languages'])) ? 'selected' : ''; ?>>Go</option>
+            </select>
+            <span class="small-hint">Удерживайте Ctrl (Cmd) для выбора нескольких языков</span>
+        </div>
+        
+        <!-- 7. Биография -->
+        <div class="form-group">
+            <label for="biography">Биография</label>
+            <textarea id="biography" name="biography" rows="5" 
+                      placeholder="Расскажите немного о себе..."><?php echo isset($_POST['biography']) ? htmlspecialchars($_POST['biography']) : ''; ?></textarea>
+            <span class="small-hint">Необязательное поле. Максимум 1000 символов.</span>
+        </div>
+        
+        <!-- 8. Контракт -->
+        <div class="form-group">
+            <div class="checkbox-group">
+                <input type="checkbox" name="contract_agreed" id="contract_agreed" value="1"
+                       <?php echo (isset($_POST['contract_agreed']) && $_POST['contract_agreed'] == '1') ? 'checked' : ''; ?>>
+                <label for="contract_agreed" class="required">Я ознакомлен(а) с условиями контракта</label>
+            </div>
+        </div>
+        
+        <button type="submit">💾 Сохранить</button>
+    </form>
+</div>
+</body>
+</html>
