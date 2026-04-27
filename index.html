@@ -183,24 +183,6 @@
             box-shadow: 0 10px 20px -5px rgba(102, 126, 234, 0.4);
         }
         
-        .error-message {
-            background: #fee2e2;
-            color: #dc2626;
-            padding: 14px 18px;
-            border-radius: 12px;
-            margin-bottom: 24px;
-            border-left: 4px solid #dc2626;
-        }
-        
-        .success-message {
-            background: #dcfce7;
-            color: #16a34a;
-            padding: 14px 18px;
-            border-radius: 12px;
-            margin-bottom: 24px;
-            border-left: 4px solid #16a34a;
-        }
-        
         @media (max-width: 640px) {
             form { padding: 24px; }
             .header { padding: 24px; }
@@ -216,91 +198,75 @@
     </div>
     
     <form method="POST" action="index.php">
-        <!-- 1. ФИО -->
         <div class="form-group">
             <label for="fio" class="required">ФИО</label>
             <input type="text" id="fio" name="fio" 
-                   placeholder="Иванов Иван Иванович"
-                   value="<?php echo isset($_POST['fio']) ? htmlspecialchars($_POST['fio']) : ''; ?>">
+                   placeholder="Иванов Иван Иванович">
             <span class="small-hint">Только буквы, пробелы и дефисы. Максимум 150 символов.</span>
         </div>
         
-        <!-- 2. Телефон -->
         <div class="form-group">
             <label for="phone" class="required">Телефон</label>
             <input type="tel" id="phone" name="phone" 
-                   placeholder="+7 (123) 456-78-90"
-                   value="<?php echo isset($_POST['phone']) ? htmlspecialchars($_POST['phone']) : ''; ?>">
+                   placeholder="+7 (123) 456-78-90">
             <span class="small-hint">Формат: +7XXXXXXXXXX или 8XXXXXXXXXX (11 цифр)</span>
         </div>
         
-        <!-- 3. Email -->
         <div class="form-group">
             <label for="email" class="required">E-mail</label>
             <input type="email" id="email" name="email" 
-                   placeholder="ivanov@example.com"
-                   value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>">
+                   placeholder="ivanov@example.com">
         </div>
         
-        <!-- 4. Дата рождения -->
         <div class="form-group">
             <label for="birth_date" class="required">Дата рождения</label>
-            <input type="date" id="birth_date" name="birth_date"
-                   value="<?php echo isset($_POST['birth_date']) ? htmlspecialchars($_POST['birth_date']) : ''; ?>">
+            <input type="date" id="birth_date" name="birth_date">
         </div>
         
-        <!-- 5. Пол -->
         <div class="form-group">
             <label class="required">Пол</label>
             <div class="radio-group">
                 <label>
-                    <input type="radio" name="gender" value="male" 
-                           <?php echo (isset($_POST['gender']) && $_POST['gender'] == 'male') ? 'checked' : ''; ?>> Мужской
+                    <input type="radio" name="gender" value="male"> Мужской
                 </label>
                 <label>
-                    <input type="radio" name="gender" value="female"
-                           <?php echo (isset($_POST['gender']) && $_POST['gender'] == 'female') ? 'checked' : ''; ?>> Женский
+                    <input type="radio" name="gender" value="female"> Женский
                 </label>
                 <label>
-                    <input type="radio" name="gender" value="other"
-                           <?php echo (isset($_POST['gender']) && $_POST['gender'] == 'other') ? 'checked' : ''; ?>> Другой
+                    <input type="radio" name="gender" value="other"> Другой
                 </label>
             </div>
         </div>
         
-        <!-- 6. Языки программирования -->
         <div class="form-group">
             <label for="languages" class="required">Любимый язык программирования</label>
             <select name="languages[]" id="languages" multiple size="6">
-                <option value="Pascal" <?php echo (isset($_POST['languages']) && in_array('Pascal', $_POST['languages'])) ? 'selected' : ''; ?>>Pascal</option>
-                <option value="C" <?php echo (isset($_POST['languages']) && in_array('C', $_POST['languages'])) ? 'selected' : ''; ?>>C</option>
-                <option value="C++" <?php echo (isset($_POST['languages']) && in_array('C++', $_POST['languages'])) ? 'selected' : ''; ?>>C++</option>
-                <option value="JavaScript" <?php echo (isset($_POST['languages']) && in_array('JavaScript', $_POST['languages'])) ? 'selected' : ''; ?>>JavaScript</option>
-                <option value="PHP" <?php echo (isset($_POST['languages']) && in_array('PHP', $_POST['languages'])) ? 'selected' : ''; ?>>PHP</option>
-                <option value="Python" <?php echo (isset($_POST['languages']) && in_array('Python', $_POST['languages'])) ? 'selected' : ''; ?>>Python</option>
-                <option value="Java" <?php echo (isset($_POST['languages']) && in_array('Java', $_POST['languages'])) ? 'selected' : ''; ?>>Java</option>
-                <option value="Haskell" <?php echo (isset($_POST['languages']) && in_array('Haskell', $_POST['languages'])) ? 'selected' : ''; ?>>Haskell</option>
-                <option value="Clojure" <?php echo (isset($_POST['languages']) && in_array('Clojure', $_POST['languages'])) ? 'selected' : ''; ?>>Clojure</option>
-                <option value="Prolog" <?php echo (isset($_POST['languages']) && in_array('Prolog', $_POST['languages'])) ? 'selected' : ''; ?>>Prolog</option>
-                <option value="Scala" <?php echo (isset($_POST['languages']) && in_array('Scala', $_POST['languages'])) ? 'selected' : ''; ?>>Scala</option>
-                <option value="Go" <?php echo (isset($_POST['languages']) && in_array('Go', $_POST['languages'])) ? 'selected' : ''; ?>>Go</option>
+                <option value="Pascal">Pascal</option>
+                <option value="C">C</option>
+                <option value="C++">C++</option>
+                <option value="JavaScript">JavaScript</option>
+                <option value="PHP">PHP</option>
+                <option value="Python">Python</option>
+                <option value="Java">Java</option>
+                <option value="Haskell">Haskell</option>
+                <option value="Clojure">Clojure</option>
+                <option value="Prolog">Prolog</option>
+                <option value="Scala">Scala</option>
+                <option value="Go">Go</option>
             </select>
             <span class="small-hint">Удерживайте Ctrl (Cmd) для выбора нескольких языков</span>
         </div>
         
-        <!-- 7. Биография -->
         <div class="form-group">
             <label for="biography">Биография</label>
             <textarea id="biography" name="biography" rows="5" 
-                      placeholder="Расскажите немного о себе..."><?php echo isset($_POST['biography']) ? htmlspecialchars($_POST['biography']) : ''; ?></textarea>
+                      placeholder="Расскажите немного о себе..."></textarea>
             <span class="small-hint">Необязательное поле. Максимум 1000 символов.</span>
         </div>
         
-        <!-- 8. Контракт -->
         <div class="form-group">
             <div class="checkbox-group">
-                <input type="checkbox" name="contract_agreed" id="contract_agreed" value="1"
-                       <?php echo (isset($_POST['contract_agreed']) && $_POST['contract_agreed'] == '1') ? 'checked' : ''; ?>>
+                <input type="checkbox" name="contract_agreed" id="contract_agreed" value="1">
                 <label for="contract_agreed" class="required">Я ознакомлен(а) с условиями контракта</label>
             </div>
         </div>
